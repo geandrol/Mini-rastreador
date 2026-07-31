@@ -1,26 +1,26 @@
-# ---------- Stage 1: Build ----------
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM eclipse-temurin:21-jdk AS build
 
-WORKDIR /app
+WORKDIR /workspace/app
 
-# Copia primeiro só o pom.xml para aproveitar cache de dependências
+COPY mvnw .
+COPY .mvn .mvn
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+COPY src src
 
-# Agora copia o restante do código
-COPY src ./src
+RUN chmod -R 777 ./mvnw
 
-# Gera o jar (pula os testes para acelerar o build no deploy)
-RUN mvn clean package -DskipTests
+RUN ./mvnw install -DskipTests
 
-# ---------- Stage 2: Runtime ----------
-FROM eclipse-temurin:21-jre-alpine
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-WORKDIR /app
+FROM eclipse-temurin:21-jdk
 
-# Copia apenas o jar gerado no stage anterior
-COPY --from=build /app/target/*.jar app.jar
+VOLUME /tmp
 
-EXPOSE 8080
+ARG DEPENDENCY=/workspace/app/target/dependency
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.geandro.rastreador.RastreadorApplication"]
