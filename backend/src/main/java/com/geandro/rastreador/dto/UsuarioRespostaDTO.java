@@ -32,6 +32,4 @@ public class UsuarioRespostaDTO {
 		this.email = email;
 	}
 	
-	
-
 }
