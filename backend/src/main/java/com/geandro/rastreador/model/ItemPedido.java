@@ -1,5 +1,7 @@
 package com.geandro.rastreador.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +20,7 @@ public class ItemPedido {
 
 	@ManyToOne
 	@JoinColumn(name = "pedido_id")
+	@JsonIgnore
 	private Pedido pedido;
 
 	public Long getId() {

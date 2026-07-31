@@ -12,7 +12,7 @@ public class PedidoCadastroDTO {
 	/*
 	 * Produtos
 	 */
-	private List<ItemPedidoDTO> itens;
+	private List<Long> itensIds;
 
 	/*
 	 * Local entrega
@@ -27,12 +27,12 @@ public class PedidoCadastroDTO {
 		this.clienteId = clienteId;
 	}
 
-	public List<ItemPedidoDTO> getItens() {
-		return itens;
+	public List<Long> getItensIds() {
+		return itensIds;
 	}
 
-	public void setItens(List<ItemPedidoDTO> itens) {
-		this.itens = itens;
+	public void setItensIds(List<Long> itensIds) {
+		this.itensIds = itensIds;
 	}
 
 	public EnderecoEntregaDTO getEnderecoEntrega() {

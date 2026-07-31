@@ -22,6 +22,7 @@ public class UsuarioService {
 		this.repository = repository;
 		this.passwordEncoder = passwordEncoder;
 	}
+
 	/*
 	 * Cadastro de usuário
 	 */

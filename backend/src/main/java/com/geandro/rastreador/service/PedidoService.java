@@ -19,9 +19,12 @@ public class PedidoService {
 
 	private final UsuarioRepository usuarioRepository;
 	
-	public PedidoService(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository) {
+	private final ItemPedidoRepository itemPedidoRepository;
+
+	public PedidoService(PedidoRepository pedidoRepository, UsuarioRepository usuarioRepository, ItemPedidoRepository itemPedidoRepository) {
 		this.pedidoRepository = pedidoRepository;
 		this.usuarioRepository = usuarioRepository;
+		this.itemPedidoRepository = itemPedidoRepository;
 	}
 
 	/*
@@ -29,53 +32,37 @@ public class PedidoService {
 	 */
 	public Pedido criarPedido(PedidoCadastroDTO dto) {
 
-		Usuario cliente = usuarioRepository.findById(dto.getClienteId())
-				.orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+	    Usuario cliente = usuarioRepository.findById(dto.getClienteId())
+	            .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-		Pedido pedido = new Pedido();
+	    Pedido pedido = new Pedido();
 
-		pedido.setCliente(cliente);
+	    pedido.setCliente(cliente);
+	    pedido.setDataPedido(LocalDateTime.now());
+	    pedido.setStatus(StatusPedido.RECEBIDO);
 
-		pedido.setDataPedido(LocalDateTime.now());
+	    // endereço
+	    Endereco endereco = new Endereco();
+	    endereco.setRua(dto.getEnderecoEntrega().getRua());
+	    endereco.setNumero(dto.getEnderecoEntrega().getNumero());
+	    endereco.setBairro(dto.getEnderecoEntrega().getBairro());
+	    endereco.setCidade(dto.getEnderecoEntrega().getCidade());
+	    endereco.setComplemento(dto.getEnderecoEntrega().getComplemento());
+	    pedido.setEndereco(endereco);
 
-		pedido.setStatus(StatusPedido.RECEBIDO);
+	    // busca os itens já cadastrados pelo ID
+	    List<ItemPedido> itens = itemPedidoRepository.findAllById(dto.getItensIds());
 
-		// endereço
-		Endereco endereco = new Endereco();
+	    if (itens.size() != dto.getItensIds().size()) {
+	        throw new RuntimeException("Um ou mais itens informados não foram encontrados");
+	    }
 
-		endereco.setRua(dto.getEnderecoEntrega().getRua());
+	    // vincula cada item ao pedido
+	    itens.forEach(item -> item.setPedido(pedido));
 
-		endereco.setNumero(dto.getEnderecoEntrega().getNumero());
+	    pedido.setItens(itens);
 
-		endereco.setBairro(dto.getEnderecoEntrega().getBairro());
-
-		endereco.setCidade(dto.getEnderecoEntrega().getCidade());
-
-		endereco.setComplemento(dto.getEnderecoEntrega().getComplemento());
-
-		pedido.setEndereco(endereco);
-
-		// itens
-		List<ItemPedido> itens = dto.getItens().stream().map(itemDTO -> {
-
-			ItemPedido item = new ItemPedido();
-
-			item.setProduto(itemDTO.getProduto());
-
-			item.setQuantidade(itemDTO.getQuantidade());
-
-			item.setPreco(itemDTO.getPreco());
-
-			item.setPedido(pedido);
-
-			return item;
-
-		}).toList();
-
-		pedido.setItens(itens);
-
-		return pedidoRepository.save(pedido);
-
+	    return pedidoRepository.save(pedido);
 	}
 
 	/*
