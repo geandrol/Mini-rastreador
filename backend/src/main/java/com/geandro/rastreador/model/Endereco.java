@@ -1,34 +1,71 @@
 package com.geandro.rastreador.model;
 
-
 import jakarta.persistence.*;
-import lombok.Data;
-
 
 @Entity
 @Table(name = "enderecos")
-@Data
 public class Endereco {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private String rua;
 
+	private String numero;
 
-    private String rua;
+	private String bairro;
 
+	private String cidade;
 
-    private String numero;
+	private String complemento;
 
+	public Long getId() {
+		return id;
+	}
 
-    private String bairro;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
+	public String getRua() {
+		return rua;
+	}
 
-    private String cidade;
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
 
+	public String getNumero() {
+		return numero;
+	}
 
-    private String complemento;
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
 
 }

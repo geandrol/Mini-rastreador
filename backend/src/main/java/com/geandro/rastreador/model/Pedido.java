@@ -1,57 +1,88 @@
 package com.geandro.rastreador.model;
 
-
 import jakarta.persistence.*;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Entity
 @Table(name = "pedidos")
-@Data
 public class Pedido {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private LocalDateTime dataPedido;
 
+	@Enumerated(EnumType.STRING)
+	private StatusPedido status;
 
-    private LocalDateTime dataPedido;
+	/*
+	 * Cliente que realizou o pedido
+	 */
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario cliente;
 
+	/*
+	 * Endereço onde será entregue
+	 */
+	@OneToOne(cascade = CascadeType.ALL)
+	private Endereco endereco;
 
-    @Enumerated(EnumType.STRING)
-    private StatusPedido status;
+	/*
+	 * Produtos do pedido
+	 */
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	private List<ItemPedido> itens;
 
+	public Long getId() {
+		return id;
+	}
 
-    /*
-     * Cliente que realizou o pedido
-     */
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario cliente;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
+	public LocalDateTime getDataPedido() {
+		return dataPedido;
+	}
 
-    /*
-     * Endereço onde será entregue
-     */
-    @OneToOne(
-        cascade = CascadeType.ALL
-    )
-    private Endereco endereco;
+	public void setDataPedido(LocalDateTime dataPedido) {
+		this.dataPedido = dataPedido;
+	}
 
+	public StatusPedido getStatus() {
+		return status;
+	}
 
+	public void setStatus(StatusPedido status) {
+		this.status = status;
+	}
 
-    /*
-     * Produtos do pedido
-     */
-    @OneToMany(
-        mappedBy = "pedido",
-        cascade = CascadeType.ALL
-    )
-    private List<ItemPedido> itens;
+	public Usuario getCliente() {
+		return cliente;
+	}
 
+	public void setCliente(Usuario cliente) {
+		this.cliente = cliente;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
+	}
 
 }
