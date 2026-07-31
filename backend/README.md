@@ -329,12 +329,12 @@ Como `Pedido` e `ItemPedido` possuem uma relação bidirecional (`@OneToMany` / 
 
 - [x] Implementação de JWT Token
 - [ ] Controle de acesso por usuário autenticado (roles/permissões)
-- [ ] Swagger / OpenAPI
+- [x] Swagger / OpenAPI
 - [ ] Tratamento global de exceções
 - [ ] Paginação de pedidos
 - [ ] Testes unitários
 - [ ] Dockerização da aplicação
-- [ ] Deploy em cloud
+- [x] Deploy em cloud
 
 <br>
 
