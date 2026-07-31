@@ -24,10 +24,11 @@ public class PedidoController {
 	public PedidoController(PedidoService service) {
 		this.service = service;
 	}
+
 	/*
 	 * Criar pedido
 	 */
-	@PostMapping
+	@PostMapping("/cadastro")
 	public ResponseEntity<Pedido> criar(@RequestBody PedidoCadastroDTO dto) {
 
 		Pedido pedido = service.criarPedido(dto);

@@ -4,22 +4,30 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.geandro.rastreador.dto.LoginResponseDTO;
 import com.geandro.rastreador.dto.UsuarioCadastroDTO;
 import com.geandro.rastreador.dto.UsuarioLoginDTO;
 import com.geandro.rastreador.model.Usuario;
+import com.geandro.rastreador.service.JwtService;
 import com.geandro.rastreador.service.UsuarioService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Pedidos", description = "Gerenciamento de pedidos")
+@SecurityRequirement(name = "bearerAuth")
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
 
 	private final UsuarioService service;
-	
-	public UsuarioController(UsuarioService service) {
+	private final JwtService jwtService;
+
+	public UsuarioController(UsuarioService service, JwtService jwtService) {
 		this.service = service;
+		this.jwtService = jwtService;
 	}
 
 	/*
@@ -38,12 +46,13 @@ public class UsuarioController {
 	 * Login
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<Usuario> login(@RequestBody UsuarioLoginDTO dto) {
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody UsuarioLoginDTO dto) {
 
 		Usuario usuario = service.login(dto);
 
-		return ResponseEntity.ok(usuario);
+		String token = jwtService.gerarToken(usuario.getEmail());
 
+		return ResponseEntity.ok(new LoginResponseDTO(token));
 	}
 
 }
