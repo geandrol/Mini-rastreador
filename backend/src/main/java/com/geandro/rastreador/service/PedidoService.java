@@ -9,10 +9,7 @@ import com.geandro.rastreador.dto.PedidoCadastroDTO;
 import com.geandro.rastreador.model.*;
 import com.geandro.rastreador.repository.*;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class PedidoService {
 
 	private final PedidoRepository pedidoRepository;

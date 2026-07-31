@@ -10,13 +10,9 @@ import com.geandro.rastreador.dto.PedidoCadastroDTO;
 import com.geandro.rastreador.model.Pedido;
 import com.geandro.rastreador.model.StatusPedido;
 import com.geandro.rastreador.service.PedidoService;
-import com.geandro.rastreador.service.UsuarioService;
-
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/pedidos")
-@RequiredArgsConstructor
 public class PedidoController {
 
 	private final PedidoService service;

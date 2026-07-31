@@ -8,10 +8,8 @@ import com.geandro.rastreador.dto.UsuarioLoginDTO;
 import com.geandro.rastreador.model.Usuario;
 import com.geandro.rastreador.repository.UsuarioRepository;
 
-import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor
 public class UsuarioService {
 
 	private final UsuarioRepository repository;
