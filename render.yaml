@@ -8,7 +8,9 @@ services:
   - type: web
     name: rastreador-api
     runtime: docker
+    rootDir: backend
     dockerfilePath: ./Dockerfile
+    dockerContext: .
     plan: free
     healthCheckPath: /
     envVars:
