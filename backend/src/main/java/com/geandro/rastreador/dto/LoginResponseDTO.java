@@ -2,7 +2,6 @@ package com.geandro.rastreador.dto;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class LoginResponseDTO {
 
     private String token;
