@@ -1,0 +1,34 @@
+databases:
+  - name: rastreador-db
+    plan: free
+    databaseName: pedidos_db
+    user: rastreador
+
+services:
+  - type: web
+    name: rastreador-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: rastreador-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: rastreador-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: rastreador-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: rastreador-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: rastreador-db
+          property: password
