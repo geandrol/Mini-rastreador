@@ -33,12 +33,10 @@ public class PedidoService {
 	            .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
 	    Pedido pedido = new Pedido();
-
 	    pedido.setCliente(cliente);
 	    pedido.setDataPedido(LocalDateTime.now());
 	    pedido.setStatus(StatusPedido.RECEBIDO);
 
-	    // endereço
 	    Endereco endereco = new Endereco();
 	    endereco.setRua(dto.getEnderecoEntrega().getRua());
 	    endereco.setNumero(dto.getEnderecoEntrega().getNumero());
@@ -47,21 +45,25 @@ public class PedidoService {
 	    endereco.setComplemento(dto.getEnderecoEntrega().getComplemento());
 	    pedido.setEndereco(endereco);
 
-	    // busca os itens já cadastrados pelo ID
-	    List<ItemPedido> itens = itemPedidoRepository.findAllById(dto.getItensIds());
-
-	    if (itens.size() != dto.getItensIds().size()) {
-	        throw new RuntimeException("Um ou mais itens informados não foram encontrados");
+	    if (dto.getItens() == null || dto.getItens().isEmpty()) {
+	        throw new RuntimeException("O pedido precisa ter ao menos um item");
 	    }
 
-	    // vincula cada item ao pedido
-	    itens.forEach(item -> item.setPedido(pedido));
+	    List<PedidoItem> itensPedido = dto.getItens().stream().map(iq -> {
+	        ItemPedido itemCatalogo = itemPedidoRepository.findById(iq.getItemId())
+	                .orElseThrow(() -> new RuntimeException("Item não encontrado: " + iq.getItemId()));
 
-	    pedido.setItens(itens);
+	        PedidoItem pi = new PedidoItem();
+	        pi.setPedido(pedido);
+	        pi.setItem(itemCatalogo);
+	        pi.setQuantidade(iq.getQuantidade());
+	        return pi;
+	    }).toList();
+
+	    pedido.setItens(itensPedido);
 
 	    return pedidoRepository.save(pedido);
 	}
-
 	/*
 	 * Listar todos pedidos
 	 */
