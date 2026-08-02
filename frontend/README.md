@@ -1,32 +1,108 @@
-# React + TypeScript + Vite
+<div align="center">
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+# 🚚 Mini Rastreador de Pedidos
 
-Currently, two official plugins are available:
+### Sistema Full Stack para gerenciamento e rastreamento de pedidos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Aplicação desenvolvida com **Java + Spring Boot** no Backend e **React + TypeScript** no Frontend.
 
-## React Compiler
+### 🌐 Acesse a aplicação
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Frontend:** https://mini-rastreador-ci6c.vercel.app/
 
-## Expanding the Oxlint configuration
+**Backend (API):** *(adicione a URL da API, caso esteja publicada)*
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+</div>
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+---
+
+## 📖 Sobre o Projeto
+
+O **Mini Rastreador de Pedidos** é uma aplicação Full Stack para gerenciamento e acompanhamento do ciclo de vida de pedidos de delivery.
+
+A plataforma permite:
+
+* 👤 Cadastro e autenticação de usuários
+* 🔐 Login seguro com JWT
+* 📦 Cadastro de pedidos
+* 📍 Cadastro de endereço de entrega
+* 🛒 Associação de produtos ao pedido
+* 🚚 Acompanhamento do status do pedido
+* 📄 Documentação da API com Swagger/OpenAPI
+
+---
+
+## 🚀 Demonstração
+
+### 🌍 Aplicação Online
+
+**Frontend (Vercel):**
+
+https://mini-rastreador-ci6c.vercel.app/
+
+### 📚 API
+
+Swagger:
+
+```
+http://localhost:8080/swagger-ui/index.html
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+OpenAPI:
+
+```
+http://localhost:8080/v3/api-docs
+```
+
+---
+
+## 🛠 Tecnologias
+
+### Backend
+
+* Java 17
+* Spring Boot 3
+* Spring Security
+* Spring Data JPA
+* Hibernate
+* JWT
+* BCrypt
+* MySQL
+* Maven
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Axios
+* React Router
+* Context API
+
+---
+
+## ✨ Funcionalidades
+
+* ✅ Cadastro de usuários
+* ✅ Login
+* ✅ Autenticação JWT
+* ✅ Rotas protegidas
+* ✅ Cadastro de pedidos
+* ✅ Atualização do status do pedido
+* ✅ Rastreamento de pedidos
+* ✅ Integração Frontend/Backend
+* ✅ Swagger/OpenAPI
+* ✅ Deploy na Vercel
+* ✅ Arquitetura em camadas
+
+---
+
+## 👨‍💻 Autor
+
+**Geandro**
+
+Desenvolvedor Full Stack
+
+GitHub:
+
+https://github.com/geandrol
