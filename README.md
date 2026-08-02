@@ -16,7 +16,7 @@ O projeto está **totalmente implantado e funcional**, com backend e frontend pu
 
 | Camada | Status | Link |
 |---|---|---|
-| 🖥️ **Frontend** (Vercel) | 🟢 Online | [mini-rastreador-hpz1-oz6e03l23-geandrols-projects.vercel.app](https://mini-rastreador-hpz1-oz6e03l23-geandrols-projects.vercel.app/) |
+| 🖥️ **Frontend** (Vercel) | 🟢 Online | [mini-rastreador-hpz1-oz6e03l23-geandrols-projects.vercel.app](https://mini-rastreador-m5pionp96-geandrols-projects.vercel.app/login) |
 | ⚙️ **Backend / API** (Render) | 🟢 Online | [mini-rastreador.onrender.com](https://dashboard.render.com/) |
 | 📑 **Documentação Swagger** | 🟢 Online | [/swagger-ui/index.html](https://mini-rastreador.onrender.com/swagger-ui/index.html) |
 
