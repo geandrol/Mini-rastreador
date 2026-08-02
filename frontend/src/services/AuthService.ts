@@ -4,7 +4,7 @@ import type { Usuario } from "../model/Usuario";
 import api from "./api";
 
 
-class authService {
+class AuthService {
 
   async cadastrar(usuario: Usuario): Promise<Usuario> {
     const response = await api.post<Usuario>(
@@ -35,4 +35,4 @@ class authService {
 
 }
 
-export default new authService();
+export default new AuthService();
