@@ -31,7 +31,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 w-full max-w-sm">
 
-        <h1 className="text-2xl font-semibold text-gray-900 mb-6">Login</h1>
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-900">Bem-vindo ao sistema</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            Mini Rastreador de Pedidos — faça login para continuar
+          </p>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
