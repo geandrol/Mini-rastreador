@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, type PropsWithChildren, } from "react";
-import authService from "../services/authService";
+
 import type { LoginRequest } from "../model/LoginRequest";
+import authService from "../services/authService";
 
 interface AuthContextType {
   token: string | null;
