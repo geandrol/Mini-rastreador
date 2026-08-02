@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import authService from "../services/authService";
+import AuthService from "../services/AuthService";
 
 export default function CadastroPage() {
 
@@ -19,7 +19,7 @@ export default function CadastroPage() {
     setCarregando(true);
 
     try {
-      await authService.cadastrar({ nome, email, senha });
+      await AuthService.cadastrar({ nome, email, senha });
       navigate("/login");
     } catch (err) {
       setErro("Não foi possível cadastrar. Tente novamente.");
