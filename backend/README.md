@@ -154,8 +154,6 @@ src/main/java/com/geandro/rastreador
 | preco | BigDecimal |
 | pedido | Pedido |
 
-> ℹ️ Os itens já existem pré-cadastrados no banco. Ao criar um pedido, o cliente seleciona apenas os **IDs** dos itens desejados (`itensIds`).
-
 </details>
 
 <details>
@@ -249,23 +247,24 @@ http://localhost:8080
 <details>
 <summary><strong>POST</strong> /pedidos — Criar pedido</summary>
 
-Os itens já são pré-cadastrados no banco de dados. O cliente informa apenas os **IDs** dos itens desejados (`itensIds`), e o backend busca e vincula cada um ao pedido.
-
 ```json
 {
   "clienteId": 1,
-  "itensIds": [1, 2],
+  "itens": [
+    {
+      "produto": "Pizza",
+      "quantidade": 2,
+      "preco": 40
+    }
+  ],
   "enderecoEntrega": {
     "rua": "Rua A",
     "numero": "100",
     "bairro": "Centro",
-    "cidade": "São Paulo",
-    "complemento": "Apto 12"
+    "cidade": "São Paulo"
   }
 }
 ```
-
-> ⚠️ Se algum ID informado não existir, a requisição retorna erro informando qual item não foi encontrado.
 
 </details>
 
@@ -300,41 +299,24 @@ PUT /pedidos/1/status?status=EM_PREPARO
 
 ## 🔐 Segurança
 
-### 🔑 Autenticação via JWT
-
-A API utiliza **JSON Web Token (JWT)** para autenticação stateless:
-
-- Rotas públicas: `/usuarios/cadastro`, `/usuarios/login`, endpoints do Swagger
-- Todas as demais rotas exigem o header `Authorization: Bearer <token>`
-- Um filtro (`JwtAuthenticationFilter`) intercepta as requisições, valida o token e popula o contexto de segurança do Spring
-- Sessões são **stateless** (`SessionCreationPolicy.STATELESS`) — nenhum estado de sessão é mantido no servidor
-
-### 🔒 Senhas
-
 As senhas dos usuários **nunca** são armazenadas em texto puro. O sistema utiliza `BCryptPasswordEncoder` para criptografia.
 
 | Senha enviada | Armazenada (hash) |
 |---|---|
 | `123456` | `$2a$10$7x8sK......` |
 
-Além disso, o campo `senha` é anotado com `@JsonIgnore` na entidade `Usuario`, garantindo que o hash **nunca** seja exposto em nenhuma resposta da API, mesmo quando o usuário aparece aninhado dentro de outro objeto (como `cliente` dentro de um `Pedido`).
-
-### 🔁 Prevenção de recursão infinita no JSON
-
-Como `Pedido` e `ItemPedido` possuem uma relação bidirecional (`@OneToMany` / `@ManyToOne`), a referência de volta (`ItemPedido.pedido`) é anotada com `@JsonIgnore` para evitar loop infinito de serialização ao retornar um pedido com seus itens.
-
 <br>
 
 ## 📚 Próximas melhorias
 
-- [x] Implementação de JWT Token
-- [ ] Controle de acesso por usuário autenticado (roles/permissões)
-- [x] Swagger / OpenAPI
+- [ ] Implementação de JWT Token
+- [ ] Controle de acesso por usuário autenticado
+- [ ] Swagger / OpenAPI
 - [ ] Tratamento global de exceções
 - [ ] Paginação de pedidos
 - [ ] Testes unitários
 - [ ] Dockerização da aplicação
-- [x] Deploy em cloud
+- [ ] Deploy em cloud
 
 <br>
 
