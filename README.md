@@ -2,180 +2,298 @@
 
 # 🚚 Mini Rastreador de Pedidos
 
-### Sistema fullstack para gerenciamento de pedidos de delivery
+### Sistema Full Stack para gerenciamento e rastreamento de pedidos
 
-*Cadastro de usuários, autenticação JWT, criação e acompanhamento de pedidos com atualização de status em tempo real.*
+Aplicação desenvolvida com **Java + Spring Boot** no Backend e **React + TypeScript** no Frontend, utilizando autenticação JWT, API REST e documentação OpenAPI.
+
+<p>
+
+![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?logo=springboot)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)
+![JWT](https://img.shields.io/badge/Auth-JWT-success)
+![Swagger](https://img.shields.io/badge/API-OpenAPI-85EA2D?logo=swagger)
+![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-black?logo=vercel)
+
+</p>
 
 </div>
 
 ---
 
-## 🌐 Aplicação em produção
+# 🌐 Demonstração
 
-O projeto está **totalmente implantado e funcional**, com backend e frontend publicados e integrados entre si:
+### Aplicação Online
 
-| Camada | Status | Link |
-|---|---|---|
-| 🖥️ **Frontend** (Vercel) | 🟢 Online | [https://mini-rastreador-ci6c.vercel.app/](https://mini-rastreador-ci6c.vercel.app/) |
-| ⚙️ **Backend / API** (Render) | 🟢 Online | [https://dashboard.render.com/](https://dashboard.render.com/) |
-| 📑 **Documentação Swagger** | 🟢 Online | [/swagger-ui/index.html](https://mini-rastreador.onrender.com/swagger-ui/index.html) |
+**Frontend**
 
-> ⚠️ **Observação:** o backend está hospedado no plano gratuito do Render. Após períodos de inatividade, o serviço "dorme" e a primeira requisição pode levar até ~1 minuto para responder enquanto o servidor é reativado. Esse comportamento é esperado e não indica erro na aplicação.
+👉 https://mini-rastreador-ci6c.vercel.app/
 
-<br>
+> O primeiro acesso pode levar alguns segundos caso o backend esteja hospedado em um serviço gratuito.
 
-## 📌 Índice
+---
 
-- [Visão geral](#-visão-geral)
-- [Arquitetura](#️-arquitetura-geral)
-- [Backend](#️-backend)
-- [Frontend](#-frontend)
-- [Fluxo de status do pedido](#-fluxo-de-status-do-pedido)
-- [Segurança](#-segurança)
-- [Como rodar localmente](#️-como-rodar-localmente)
-- [Próximas melhorias](#-próximas-melhorias)
-- [Autor](#-autor)
+# 📖 Sobre o Projeto
 
-<br>
+O **Mini Rastreador de Pedidos** é uma aplicação Full Stack desenvolvida para gerenciar e acompanhar pedidos de delivery.
 
-## 📖 Visão geral
+A plataforma permite o cadastro de usuários, autenticação segura, criação de pedidos, acompanhamento do fluxo de entrega e atualização do status dos pedidos através de uma interface web integrada a uma API REST.
 
-O **Mini Rastreador de Pedidos** é uma aplicação fullstack composta por duas partes independentes que se comunicam via API REST:
+O projeto foi desenvolvido utilizando boas práticas de arquitetura em camadas, autenticação JWT, documentação com OpenAPI/Swagger e banco de dados relacional.
 
-- **`/backend`** — API construída em **Java + Spring Boot**, responsável por regras de negócio, persistência de dados e autenticação via JWT.
-- **`/frontend`** — Interface construída em **React + Vite + TypeScript**, responsável pela experiência do usuário, consumo da API e gerenciamento de sessão.
+---
 
-Ambos os módulos possuem README próprio com detalhes técnicos completos:
+# ✨ Funcionalidades
 
-- 📄 [`backend/README.md`](./backend/README.md)
-- 📄 [`frontend/README.md`](./frontend/README.md)
+## 👤 Usuários
 
-<br>
+- Cadastro de usuários
+- Login
+- Autenticação JWT
+- Senhas criptografadas com BCrypt
+- Rotas protegidas
 
-## 🏗️ Arquitetura geral
+---
+
+## 📦 Pedidos
+
+- Cadastro de pedidos
+- Associação de cliente
+- Associação de endereço de entrega
+- Associação de produtos
+- Consulta de pedidos
+- Atualização do status
+- Rastreamento do pedido
+
+---
+
+# 🚚 Fluxo do Pedido
 
 ```text
-┌─────────────────────────┐        HTTPS / JSON        ┌──────────────────────────┐
-│        Frontend         │  ─────────────────────────▶ │         Backend          │
-│   React + Vite + TS     │                              │   Java + Spring Boot     │
-│   (Vercel)               │ ◀───────────────────────────│   (Render)                │
-└─────────────────────────┘        JWT Bearer Token      └──────────────┬───────────┘
-                                                                          │
-                                                                          ▼
-                                                                 ┌────────────────┐
-                                                                 │     MySQL      │
-                                                                 └────────────────┘
+RECEBIDO
+      │
+      ▼
+EM_PREPARO
+      │
+      ▼
+SAIU_PARA_ENTREGA
+      │
+      ▼
+ENTREGUE
+
+└────────────► CANCELADO
 ```
 
-<br>
+---
 
-## ⚙️ Backend
+# 🏗️ Arquitetura
 
-API REST desenvolvida com **Spring Boot**, seguindo arquitetura em camadas (Controller → Service → Repository → Model/DTO).
-
-**Principais funcionalidades:**
-- Cadastro e autenticação de usuários (senhas criptografadas com BCrypt)
-- Criação, listagem e busca de pedidos
-- Atualização de status do pedido
-- Autenticação stateless via JWT
-
-**Tecnologias:** Java 17, Spring Boot 3, Spring Security, Spring Data JPA, Hibernate, MySQL, Maven.
-
-**Deploy:** [Render](https://mini-rastreador.onrender.com) · **Docs:** [Swagger UI](https://mini-rastreador.onrender.com/swagger-ui/index.html)
-
-📄 Detalhes completos (modelo de dados, endpoints, segurança) em [`backend/README.md`](./backend/README.md).
-
-<br>
-
-## 🎨 Frontend
-
-Interface web construída em **React + Vite + TypeScript**, responsável pela autenticação, gerenciamento de sessão e consumo da API do backend.
-
-**Principais funcionalidades:**
-- Login e cadastro de usuários
-- Armazenamento do JWT e rotas protegidas
-- Listagem e criação de pedidos com múltiplos itens
-- Interface estilizada com Tailwind CSS
-
-**Tecnologias:** React 18, Vite, TypeScript, React Router DOM, Axios, Tailwind CSS.
-
-**Deploy:** [Vercel](https://mini-rastreador-hpz1-oz6e03l23-geandrols-projects.vercel.app/)
-
-📄 Detalhes completos (estrutura de pastas, variáveis de ambiente, endpoints consumidos) em [`frontend/README.md`](./frontend/README.md).
-
-<br>
-
-## 🚦 Fluxo de status do pedido
-
-```mermaid
-flowchart LR
-    A[RECEBIDO] --> B[EM_PREPARO]
-    B --> C[SAIU_PARA_ENTREGA]
-    C --> D[ENTREGUE]
-    A --> E[CANCELADO]
+```
+React + TypeScript
+        │
+        │ Axios
+        ▼
+Spring Boot REST API
+        │
+ ┌──────┼──────────┐
+ │      │          │
+Controller Service Security
+ │
+ ▼
+Repository
+ │
+ ▼
+MySQL
 ```
 
-<br>
+---
 
-## 🔐 Segurança
+# 📂 Estrutura do Projeto
 
-- Autenticação stateless via **JWT** (`Authorization: Bearer <token>`)
-- Senhas armazenadas com hash **BCrypt**, nunca em texto puro
-- Campo de senha ignorado em qualquer resposta serializada da API
-- Rotas públicas restritas a cadastro, login e documentação Swagger
+```
+Mini-rastreador
+│
+├── backend
+│   ├── controller
+│   ├── dto
+│   ├── exception
+│   ├── model
+│   ├── repository
+│   ├── security
+│   └── service
+│
+└── frontend
+    ├── components
+    ├── context
+    ├── model
+    ├── pages
+    ├── services
+    └── routes
+```
 
-<br>
+---
 
-## ▶️ Como rodar localmente
+# 🛠️ Tecnologias
 
-### Backend
+## Backend
+
+- Java 17
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT
+- BCrypt
+- Maven
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Axios
+- React Router DOM
+- Context API
+
+## Banco de Dados
+
+- MySQL
+
+---
+
+# 🔐 Segurança
+
+A autenticação utiliza **JWT (JSON Web Token)**.
+
+Fluxo:
+
+```
+Login
+
+↓
+
+JWT
+
+↓
+
+Bearer Token
+
+↓
+
+Requisições autenticadas
+```
+
+As senhas dos usuários são criptografadas utilizando **BCryptPasswordEncoder**.
+
+---
+
+# 📚 Documentação da API
+
+Após iniciar o backend, a documentação pode ser acessada em:
+
+### Swagger UI
+
+```
+http://localhost:8080/swagger-ui/index.html
+```
+
+### OpenAPI
+
+```
+http://localhost:8080/v3/api-docs
+```
+
+---
+
+# 🚀 Como executar
+
+## Backend
 
 ```bash
-git clone https://github.com/geandrol/Mini-rastreador.git
-cd Mini-rastreador/backend
+cd backend
+
 mvn spring-boot:run
 ```
 
-A API sobe em `http://localhost:8080`.
+---
 
-### Frontend
+## Frontend
 
 ```bash
-cd Mini-rastreador/frontend
+cd frontend
+
 npm install
+
 npm run dev
 ```
 
-A aplicação sobe em `http://localhost:5173`.
+Aplicação disponível em:
 
-> Configure o arquivo `.env` do frontend apontando para o backend local ou para o backend em produção:
-> ```env
-> VITE_API_URL=http://localhost:8080
-> ```
+```
+http://localhost:5173
+```
 
-<br>
+---
 
-## 📚 Próximas melhorias
+# 📌 Funcionalidades Implementadas
 
-- [x] Deploy do backend (Render)
-- [x] Deploy do frontend (Vercel)
-- [x] Autenticação JWT
-- [x] Documentação via Swagger
-- [ ] Controle de acesso por roles/permissões
-- [ ] Dashboard com métricas
-- [ ] Paginação de pedidos
-- [ ] Testes automatizados (backend e frontend)
-- [ ] Dockerização completa da aplicação
+- ✅ Cadastro de usuários
+- ✅ Login
+- ✅ JWT Authentication
+- ✅ Spring Security
+- ✅ BCrypt
+- ✅ Cadastro de pedidos
+- ✅ Atualização do status
+- ✅ Rastreamento de pedidos
+- ✅ API REST
+- ✅ Swagger / OpenAPI
+- ✅ Integração Frontend + Backend
+- ✅ Deploy na Vercel
 
-<br>
+---
 
-## 👨‍💻 Autor
+# 🚀 Próximas Melhorias
+
+- Docker
+- Docker Compose
+- CI/CD
+- Testes Unitários
+- Testes de Integração
+- Dashboard administrativo
+- Responsividade mobile
+- Recuperação de senha
+- Refresh Token
+
+---
+
+# 👨‍💻 Autor
+
+**Geandro**
+
+Desenvolvedor Full Stack
+
+### Tecnologias
+
+- Java
+- Spring Boot
+- React
+- TypeScript
+- Node.js
+- SQL
+
+### GitHub
+
+https://github.com/geandrol
+
+### LinkedIn
+
+*(adicione o link do seu perfil)*
+
+---
 
 <div align="center">
-
-**Geandro Araujo**
-
-Projeto fullstack desenvolvido para estudo, portfólio e demonstração de conhecimentos em **Java, Spring Boot, React, TypeScript e integração de APIs REST**, com backend e frontend publicados em produção.
 
 ⭐ Se este projeto foi útil, deixe uma estrela no repositório!
 
