@@ -3,8 +3,9 @@ import pedidoService from "../services/pedidoService";
 import clienteService from "../services/clienteService";
 import type { PedidoCadastro } from "../model/PedidoCadastro";
 import type { ItemDisponivel } from "../model/ItemDisponivel";
-import ItemService from "../services/ItemService";
+
 import Layout from "../components/Layout";
+import ItemService from "../services/ItemService";
 
 export default function NovoPedidoPage() {
 
