@@ -73,6 +73,12 @@ export default function CadastroPage() {
           </button>
         </form>
 
+        {carregando && (
+          <p className="text-center text-xs text-gray-400 mt-3">
+            espere o Render acordar! sem dinheiro para a versão paga 😅
+          </p>
+        )}
+
         {erro && (
           <p className="text-red-600 text-sm mt-4">{erro}</p>
         )}
