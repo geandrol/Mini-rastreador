@@ -80,6 +80,7 @@ export default function PedidosPage() {
       <h1 className="text-2xl font-semibold text-gray-900 mb-6">Pedidos</h1>
 
       <form onSubmit={handleBuscarPorId} className="flex gap-2 mb-6">
+        
         <input
           type="number"
           min="1"
