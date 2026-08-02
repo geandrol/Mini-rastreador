@@ -8,6 +8,6 @@ export interface Pedido {
   dataPedido?: string;
   status?: StatusPedido;
   cliente: Usuario;
-  enderecoEntrega: EnderecoEntrega;
+  endereco: EnderecoEntrega;
   itens: ItemPedido[];
 }

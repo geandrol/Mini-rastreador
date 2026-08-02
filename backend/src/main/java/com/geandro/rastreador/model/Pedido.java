@@ -36,8 +36,8 @@ public class Pedido {
 	/*
 	 * Produtos do pedido
 	 */
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-	private List<ItemPedido> itens;
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PedidoItem> itens;
 
 	public Long getId() {
 		return id;
@@ -79,12 +79,14 @@ public class Pedido {
 		this.endereco = endereco;
 	}
 
-	public List<ItemPedido> getItens() {
+	public List<PedidoItem> getItens() {
 		return itens;
 	}
 
-	public void setItens(List<ItemPedido> itens) {
+	public void setItens(List<PedidoItem> itens) {
 		this.itens = itens;
 	}
+
+	
 
 }

@@ -14,14 +14,12 @@ public class ItemPedido {
 
 	private String produto;
 
-	private Integer quantidade;
-
 	private Double preco;
 
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "pedido_id")
 	@JsonIgnore
-	private Pedido pedido;
+	private Pedido pedido;*/
 
 	public Long getId() {
 		return id;
@@ -39,14 +37,6 @@ public class ItemPedido {
 		this.produto = produto;
 	}
 
-	public Integer getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(Integer quantidade) {
-		this.quantidade = quantidade;
-	}
-
 	public Double getPreco() {
 		return preco;
 	}
@@ -55,12 +45,6 @@ public class ItemPedido {
 		this.preco = preco;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
+	
 
 }

@@ -24,6 +24,11 @@ class AuthService {
     return response.data;
   }
 
+  async listar(): Promise<Usuario[]> {
+    const response = await api.get<Usuario[]>("/usuarios");
+    return response.data;
+  }
+
   logout() {
     localStorage.removeItem("token");
   }

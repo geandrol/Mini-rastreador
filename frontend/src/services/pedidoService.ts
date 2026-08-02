@@ -1,4 +1,5 @@
 import type { Pedido } from "../model/Pedido";
+import type { PedidoCadastro } from "../model/PedidoCadastro";
 import type { StatusPedido } from "../model/StatusPedido";
 import api from "./api";
 
@@ -14,12 +15,8 @@ class PedidoService {
     return response.data;
   }
 
-  async criar(pedido: Pedido): Promise<Pedido> {
-    const response = await api.post<Pedido>(
-      "/pedidos",
-      pedido
-    );
-
+  async criar(dados: PedidoCadastro): Promise<Pedido> {
+    const response = await api.post<Pedido>("/pedidos/cadastro", dados);
     return response.data;
   }
 

@@ -7,124 +7,80 @@ export default function CadastroPage() {
   const navigate = useNavigate();
 
   const [nome, setNome] = useState("");
-
   const [email, setEmail] = useState("");
-
   const [senha, setSenha] = useState("");
-
   const [carregando, setCarregando] = useState(false);
-
   const [erro, setErro] = useState("");
 
-  async function handleSubmit(
-    e: React.FormEvent
-  ) {
-
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     setErro("");
     setCarregando(true);
 
     try {
-      await authService.cadastrar({
-        nome,
-        email,
-        senha,
-      });
-
+      await authService.cadastrar({ nome, email, senha });
       navigate("/login");
     } catch (err) {
       setErro("Não foi possível cadastrar. Tente novamente.");
     } finally {
       setCarregando(false);
     }
-
   }
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 w-full max-w-sm">
 
-      <h1>Cadastro</h1>
+        <h1 className="text-2xl font-semibold text-gray-900 mb-6">Cadastro</h1>
 
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            placeholder="Nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            disabled={carregando}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-60"
+          />
 
-        <input
-          placeholder="Nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          disabled={carregando}
-        />
+          <input
+            type="email"
+            placeholder="E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={carregando}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-60"
+          />
 
-        <br /><br />
+          <input
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            disabled={carregando}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:opacity-60"
+          />
 
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          disabled={carregando}
-        />
+          <button
+            type="submit"
+            disabled={carregando}
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-70 disabled:cursor-not-allowed text-white font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            {carregando && (
+              <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+            )}
+            {carregando ? "Cadastrando..." : "Cadastrar"}
+          </button>
+        </form>
 
-        <br /><br />
+        {erro && (
+          <p className="text-red-600 text-sm mt-4">{erro}</p>
+        )}
 
-        <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
-          disabled={carregando}
-        />
-
-        <br /><br />
-
-        <button
-          type="submit"
-          disabled={carregando}
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            opacity: carregando ? 0.7 : 1,
-            cursor: carregando ? "not-allowed" : "pointer",
-          }}
-        >
-          {carregando && (
-            <span
-              style={{
-                width: 14,
-                height: 14,
-                border: "2px solid #ffffff55",
-                borderTopColor: "#fff",
-                borderRadius: "50%",
-                display: "inline-block",
-                animation: "spin 0.7s linear infinite",
-              }}
-            />
-          )}
-          {carregando ? "Cadastrando..." : "Cadastrar"}
-        </button>
-
-      </form>
-
-      {erro && (
-        <p style={{ color: "red", marginTop: 12 }}>{erro}</p>
-      )}
-
-      <br />
-
-      <Link to="/login">
-        Voltar para login
-      </Link>
-
-      <style>
-        {`
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-
+        <Link to="/login" className="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium mt-6">
+          Voltar para login
+        </Link>
+      </div>
     </div>
   );
 }
