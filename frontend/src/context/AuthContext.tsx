@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState, type PropsWithChildren, } from "react";
 
 import type { LoginRequest } from "../model/LoginRequest";
-import authService from "../services/authService";
+import AuthService from "../services/AuthService";
 
 interface AuthContextType {
   token: string | null;
@@ -27,7 +27,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, []);
 
   async function login(dados: LoginRequest) {
-    const response = await authService.login(dados);
+    const response = await AuthService.login(dados);
 
     localStorage.setItem("token", response.token);
 
