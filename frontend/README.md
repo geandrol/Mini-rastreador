@@ -1,32 +1,290 @@
-# React + TypeScript + Vite
+# 🚚 Mini Rastreador de Pedidos — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Interface web do sistema **Mini Rastreador de Pedidos**, desenvolvida em **React + Vite + TypeScript**, responsável pela autenticação de usuários, gerenciamento de sessão com **JWT** e consumo da API REST do backend para cadastro e acompanhamento de pedidos.
 
-Currently, two official plugins are available:
+Este projeto foi desenvolvido como parte de um desafio técnico com foco em **arquitetura em camadas, integração frontend/backend e boas práticas de desenvolvimento**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## ✨ Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 👤 Autenticação
 
-## Expanding the Oxlint configuration
+* Login com e-mail e senha
+* Cadastro de usuários
+* Armazenamento do **JWT** em `localStorage`
+* Rotas protegidas
+* Logout da sessão
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### 📦 Pedidos
+
+* Listagem de pedidos
+* Criação de novos pedidos
+* Múltiplos itens por pedido
+* Endereço completo de entrega
+* Atualização de status (integrado ao backend)
+
+### 🎨 Interface
+
+* React + Vite
+* TypeScript
+* Tailwind CSS
+* Estrutura modular e reutilizável
+* Preparado para expansão (dashboard, filtros, paginação, etc.)
+
+---
+
+# 🏗️ Arquitetura do Projeto
+
+O frontend segue uma arquitetura baseada em separação de responsabilidades.
+
+```text
+src
+├── components
+│   ├── layout
+│   ├── pedido
+│   └── ui
+│
+├── context
+│   └── AuthContext.tsx
+│
+├── hooks
+│
+├── model
+│   ├── Usuario.ts
+│   ├── Pedido.ts
+│   ├── ItemPedido.ts
+│   ├── EnderecoEntrega.ts
+│   └── StatusPedido.ts
+│
+├── pages
+│   ├── LoginPage.tsx
+│   ├── CadastroPage.tsx
+│   ├── DashboardPage.tsx
+│   ├── PedidosPage.tsx
+│   └── NovoPedidoPage.tsx
+│
+├── routes
+│   └── PrivateRoute.tsx
+│
+├── services
+│   ├── api.ts
+│   ├── authService.ts
+│   └── pedidoService.ts
+│
+├── App.tsx
+└── main.tsx
+```
+
+---
+
+# 🛠️ Tecnologias Utilizadas
+
+## Frontend
+
+* React 18
+* Vite
+* TypeScript
+* React Router DOM
+* Axios
+* Tailwind CSS
+
+## Integração
+
+* JWT (JSON Web Token)
+* API REST Spring Boot
+
+---
+
+# 🔗 Backend
+
+O frontend consome a API hospedada em Render.
+
+**API Base URL**
+
+```text
+https://mini-rastreador.onrender.com
+```
+
+Documentação Swagger:
+
+```text
+https://mini-rastreador.onrender.com/swagger-ui/index.html
+```
+
+---
+
+# 🔐 Autenticação JWT
+
+Após o login, o backend retorna um token JWT.
+
+Exemplo:
 
 ```json
 {
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
+  "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+O token é armazenado em `localStorage` e enviado automaticamente em todas as requisições protegidas através do interceptor do Axios.
+
+```text
+Authorization: Bearer TOKEN
+```
+
+---
+
+# ⚙️ Configuração do Projeto
+
+## Pré-requisitos
+
+* Node.js 18+
+* npm ou yarn
+
+---
+
+# 📦 Instalação
+
+Clone o repositório:
+
+```bash
+git clone https://github.com/geandrol/Mini-rastreador.git
+```
+
+Acesse a pasta do frontend:
+
+```bash
+cd Mini-rastreador/frontend
+```
+
+Instale as dependências:
+
+```bash
+npm install
+```
+
+---
+
+# ▶️ Executando
+
+Inicie o servidor de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação ficará disponível em:
+
+```text
+http://localhost:5173
+```
+
+---
+
+# 🌍 Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto.
+
+```env
+VITE_API_URL=https://mini-rastreador.onrender.com
+```
+
+---
+
+# 🔌 Endpoints Consumidos
+
+## Usuários
+
+### Cadastro
+
+```http
+POST /usuarios/cadastro
+```
+
+### Login
+
+```http
+POST /usuarios/login
+```
+
+### Listagem
+
+```http
+GET /usuarios
+```
+
+---
+
+## Pedidos
+
+### Listar pedidos
+
+```http
+GET /pedidos
+```
+
+### Buscar pedido
+
+```http
+GET /pedidos/{id}
+```
+
+### Criar pedido
+
+```http
+POST /pedidos
+```
+
+### Atualizar status
+
+```http
+PUT /pedidos/{id}/status
+```
+
+---
+
+# 📋 Fluxo da Aplicação
+
+```text
+Login
+   |
+   v
+JWT recebido
+   |
+   v
+localStorage
+   |
+   v
+Axios Interceptor
+   |
+   v
+Endpoints protegidos
+   |
+   v
+Pedidos / Dashboard
+```
+
+---
+
+# 🚀 Próximas Melhorias
+
+* [ ] Dashboard com métricas
+* [ ] Filtro por status do pedido
+* [ ] Busca por cliente
+* [ ] Paginação
+* [ ] Toasts de notificação
+* [ ] Responsividade mobile completa
+* [ ] Testes com React Testing Library
+* [x] Deploy no Vercel
+
+---
+
+# 👨‍💻 Autor
+
+**Geandro Araujo**
+
+Projeto desenvolvido para estudo, portfólio e demonstração de conhecimentos em **React, TypeScript, Vite, Tailwind CSS, autenticação JWT e integração com APIs REST**.
+
+---
+
+⭐ Se este projeto foi útil, deixe uma estrela no repositório!
