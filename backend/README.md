@@ -2,330 +2,398 @@
 
 # 🚚 Mini Rastreador de Pedidos
 
-### API REST para gerenciamento de pedidos de delivery
+### Sistema Full Stack para gerenciamento de pedidos de delivery
 
-*Cadastro de usuários, autenticação, criação e acompanhamento de pedidos com atualização de status em tempo real.*
+Aplicação desenvolvida como desafio técnico utilizando **Java + Spring Boot** no backend e **React + TypeScript** no frontend, com autenticação JWT, documentação Swagger e deploy em cloud.
+
+![Java](https://img.shields.io/badge/Java-17-orange)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-success)
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)
+![JWT](https://img.shields.io/badge/Auth-JWT-green)
+![Swagger](https://img.shields.io/badge/API-Swagger-85EA2D)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
 
 ---
 
-Projeto desenvolvido como **desafio técnico** utilizando **Java + Spring Boot**, seguindo boas práticas de organização em camadas (Controller → Service → Repository → Model/DTO).
+# 📌 Sobre o projeto
 
-<br>
+O Mini Rastreador de Pedidos é uma aplicação completa para gerenciamento de pedidos de delivery.
 
-## 📌 Índice
+O sistema permite:
 
-- [Funcionalidades](#-funcionalidades)
-- [Fluxo de status do pedido](#-fluxo-de-status-do-pedido)
-- [Arquitetura](#️-arquitetura-do-projeto)
-- [Tecnologias](#️-tecnologias-utilizadas)
-- [Modelo de dados](#️-modelo-de-dados)
-- [Configuração e execução](#️-configuração-do-projeto)
-- [Endpoints da API](#-endpoints)
-- [Segurança](#-segurança)
-- [Próximas melhorias](#-próximas-melhorias)
-- [Autor](#-autor)
+- Cadastro e autenticação de usuários
+- Controle de clientes
+- Cadastro de pedidos
+- Atualização do status da entrega
+- Rastreamento do pedido
+- Comunicação entre Frontend e Backend através de API REST
 
-<br>
+Toda a aplicação foi construída utilizando arquitetura em camadas seguindo boas práticas de desenvolvimento.
 
-## 📌 Funcionalidades
+---
 
-### 👤 Usuários
+# ✨ Funcionalidades
 
-| Funcionalidade | Descrição |
-|---|---|
-| Cadastro | Criação de usuário com validação de e-mail duplicado |
-| Login | Autenticação via e-mail e senha |
-| Segurança | Senhas criptografadas com **BCrypt** |
+## 👤 Usuários
 
-### 📦 Pedidos
+- Cadastro de usuários
+- Login
+- Senhas criptografadas com BCrypt
+- Autenticação utilizando JWT
+- Proteção de rotas
 
-| Funcionalidade | Descrição |
-|---|---|
-| Criar pedido | Associa cliente, itens e endereço de entrega |
-| Listar pedidos | Retorna todos os pedidos cadastrados |
-| Buscar por ID | Consulta detalhada de um pedido específico |
-| Atualizar status | Avança o pedido no fluxo de entrega |
+---
 
-<br>
+## 📦 Pedidos
 
-## 🚦 Fluxo de status do pedido
+- Criar pedidos
+- Buscar pedidos
+- Listar pedidos
+- Atualizar status
+- Histórico de pedidos
+
+---
+
+## 🚚 Fluxo do Pedido
 
 ```mermaid
 flowchart LR
-    A[RECEBIDO] --> B[EM_PREPARO]
-    B --> C[SAIU_PARA_ENTREGA]
-    C --> D[ENTREGUE]
-    A --> E[CANCELADO]
+A[RECEBIDO] --> B[EM_PREPARO]
+B --> C[SAIU_PARA_ENTREGA]
+C --> D[ENTREGUE]
+
+A --> E[CANCELADO]
 ```
 
-<br>
+---
 
-## 🏗️ Arquitetura do Projeto
+# 🏗 Arquitetura
 
-Organização em camadas, seguindo o padrão do Spring Boot:
+```
+Frontend (React)
 
-```text
-src/main/java/com/geandro/rastreador
-│
-├── 🎮 controller     → Endpoints REST
-├── ⚙️ service        → Regras de negócio
-├── 🗄️ repository     → Comunicação com o banco de dados
-├── 🧩 model          → Entidades JPA
-├── 📦 dto            → Objetos de transferência de dados
-└── 🔐 security       → Configurações de autenticação
+↓
+
+API REST
+
+↓
+
+Controller
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+MySQL
 ```
 
-<br>
+Backend organizado em camadas:
 
-## 🛠️ Tecnologias utilizadas
+```
+controller
+service
+repository
+model
+dto
+security
+config
+exception
+```
 
-<table>
-<tr>
-<td valign="top" width="33%">
+---
 
-**Backend**
-- Java 17+
+# 🛠 Tecnologias
+
+## Backend
+
+- Java 17
 - Spring Boot 3
-- Spring Web
-- Spring Data JPA
 - Spring Security
+- Spring Data JPA
 - Hibernate
+- JWT
+- BCrypt
 - Maven
 
-</td>
-<td valign="top" width="33%">
+---
 
-**Banco de Dados**
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Axios
+- React Router
+
+---
+
+## Banco
+
 - MySQL
 
-</td>
-<td valign="top" width="33%">
+---
 
-**Ferramentas**
-- Spring Tool Suite (STS)
-- Eclipse
+## Documentação
+
+- Swagger / OpenAPI
+
+---
+
+## Ferramentas
+
+- Git
+- GitHub
 - Postman
-- Git / GitHub
+- VS Code
+- IntelliJ / STS
 
-</td>
-</tr>
-</table>
+---
 
-<br>
+# 🔐 Segurança
 
-## 🗄️ Modelo de Dados
+A aplicação utiliza:
 
-<details>
-<summary><strong>👤 Usuario</strong></summary>
+- JWT Authentication
+- BCryptPasswordEncoder
+- Spring Security
+- Rotas protegidas
+- Autorização baseada em Token
 
-| Campo | Tipo |
-|---|---|
-| id | Long |
-| nome | String |
-| email | String |
-| senha | String |
+Fluxo:
 
-</details>
+```
+Login
 
-<details>
-<summary><strong>📦 Pedido</strong></summary>
+↓
 
-| Campo | Tipo |
-|---|---|
-| id | Long |
-| dataPedido | LocalDateTime |
-| status | Enum |
-| cliente | Usuario |
-| enderecoEntrega | EnderecoEntrega |
-| itens | List\<ItemPedido\> |
+JWT
 
-</details>
+↓
 
-<details>
-<summary><strong>🛒 ItemPedido</strong></summary>
+Bearer Token
 
-| Campo | Tipo |
-|---|---|
-| id | Long |
-| produto | String |
-| quantidade | Integer |
-| preco | BigDecimal |
-| pedido | Pedido |
+↓
 
-</details>
+Requisições autenticadas
+```
 
-<details>
-<summary><strong>📍 EnderecoEntrega</strong></summary>
+---
 
-| Campo | Tipo |
-|---|---|
-| id | Long |
-| rua | String |
-| numero | String |
-| bairro | String |
-| cidade | String |
-| complemento | String |
+# 📑 Documentação da API
 
-</details>
+Após iniciar o backend:
 
-<br>
+```
+http://localhost:8080/swagger-ui/index.html
+```
 
-## ⚙️ Configuração do Projeto
+OpenAPI:
 
-### ✅ Pré-requisitos
+```
+http://localhost:8080/v3/api-docs
+```
 
-- Java 17+
-- Maven
-- MySQL
+---
 
-### 🗃️ 1. Criar o banco de dados
+# 📦 Modelo de Dados
+
+## Usuário
+
+- id
+- nome
+- email
+- senha
+
+---
+
+## Pedido
+
+- id
+- dataPedido
+- status
+- cliente
+- endereço
+- itens
+
+---
+
+## Item
+
+- id
+- produto
+- quantidade
+- preço
+
+---
+
+## Endereço
+
+- rua
+- número
+- bairro
+- cidade
+- complemento
+
+---
+
+# 🚀 Como executar
+
+## Backend
+
+```bash
+git clone https://github.com/geandrol/Mini-rastreador.git
+
+cd backend
+
+mvn spring-boot:run
+```
+
+---
+
+## Banco
+
+Criar:
 
 ```sql
 CREATE DATABASE pedidos_db;
 ```
 
-### 🔧 2. Configurar `application.properties`
+Configurar:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/pedidos_db
+
 spring.datasource.username=root
-spring.datasource.password=SUA_SENHA
+
+spring.datasource.password=senha
 
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
 ```
 
-### ▶️ 3. Clonar e executar
+---
+
+## Frontend
 
 ```bash
-git clone https://github.com/seuusuario/rastreador.git
-cd backend
-mvn spring-boot:run
+cd frontend
+
+npm install
+
+npm run dev
 ```
 
-A API estará disponível em:
+---
 
-```text
-http://localhost:8080
+# 🌐 Deploy
+
+## Backend
+
+Deploy realizado em Cloud utilizando Spring Boot.
+
+## Frontend
+
+Deploy realizado na Vercel.
+
+---
+
+# 🔌 Principais Endpoints
+
+## Autenticação
+
+```
+POST /usuarios/cadastro
+
+POST /usuarios/login
 ```
 
-<br>
+---
 
-## 🔌 Endpoints
+## Pedidos
 
-### 👤 Usuários
-
-<details>
-<summary><strong>POST</strong> /usuarios/cadastro — Cadastrar usuário</summary>
-
-```json
-{
-  "nome": "João Silva",
-  "email": "joao@email.com",
-  "senha": "123456"
-}
 ```
-
-</details>
-
-<details>
-<summary><strong>POST</strong> /usuarios/login — Autenticar usuário</summary>
-
-```json
-{
-  "email": "joao@email.com",
-  "senha": "123456"
-}
-```
-
-</details>
-
-### 📦 Pedidos
-
-<details>
-<summary><strong>POST</strong> /pedidos — Criar pedido</summary>
-
-```json
-{
-  "clienteId": 1,
-  "itens": [
-    {
-      "produto": "Pizza",
-      "quantidade": 2,
-      "preco": 40
-    }
-  ],
-  "enderecoEntrega": {
-    "rua": "Rua A",
-    "numero": "100",
-    "bairro": "Centro",
-    "cidade": "São Paulo"
-  }
-}
-```
-
-</details>
-
-<details>
-<summary><strong>GET</strong> /pedidos — Listar todos os pedidos</summary>
-
-```http
 GET /pedidos
+
+GET /pedidos/{id}
+
+POST /pedidos
+
+PUT /pedidos/{id}/status
 ```
 
-</details>
+---
 
-<details>
-<summary><strong>GET</strong> /pedidos/{id} — Buscar pedido por ID</summary>
+## Clientes
 
-```http
-GET /pedidos/1
+```
+GET /clientes
+
+POST /clientes
 ```
 
-</details>
+---
 
-<details>
-<summary><strong>PUT</strong> /pedidos/{id}/status — Atualizar status do pedido</summary>
+# 📋 Diferenciais do Projeto
 
-```http
-PUT /pedidos/1/status?status=EM_PREPARO
-```
+✅ Arquitetura em camadas
 
-</details>
+✅ DTOs
 
-<br>
+✅ Spring Security
 
-## 🔐 Segurança
+✅ JWT Authentication
 
-As senhas dos usuários **nunca** são armazenadas em texto puro. O sistema utiliza `BCryptPasswordEncoder` para criptografia.
+✅ BCrypt
 
-| Senha enviada | Armazenada (hash) |
-|---|---|
-| `123456` | `$2a$10$7x8sK......` |
+✅ Swagger/OpenAPI
 
-<br>
+✅ API REST
 
-## 📚 Próximas melhorias
+✅ React + TypeScript
 
-- [ ] Implementação de JWT Token
-- [ ] Controle de acesso por usuário autenticado
-- [ ] Swagger / OpenAPI
-- [ ] Tratamento global de exceções
-- [ ] Paginação de pedidos
-- [ ] Testes unitários
-- [ ] Dockerização da aplicação
-- [ ] Deploy em cloud
+✅ Integração Frontend/Backend
 
-<br>
+✅ Tratamento de exceções
 
-## 👨‍💻 Autor
+✅ Deploy em Cloud
 
-<div align="center">
+---
 
-**Geandro Araujo**
+# 🔮 Próximas melhorias
 
-Projeto desenvolvido para estudo e demonstração de conhecimentos em desenvolvimento Backend Java.
+- Testes unitários
+- Testes de integração
+- Docker
+- Docker Compose
+- CI/CD
+- Refresh Token
+- Recuperação de senha
+- Upload de imagens
+- Painel administrativo
+- Monitoramento com Actuator
 
-</div>
+---
+
+# 👨‍💻 Autor
+
+**Geandro**
+
+Desenvolvedor Full Stack
+
+Java • Spring Boot • React • TypeScript • MySQL
+
+GitHub:
+
+https://github.com/geandrol
+
+LinkedIn:
+
+(adicione seu LinkedIn aqui)
