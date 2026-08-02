@@ -2,36 +2,33 @@
 
 # 🚚 Mini Rastreador de Pedidos
 
-### Sistema Full Stack para gerenciamento de pedidos de delivery
+### Sistema Full Stack para gerenciamento e rastreamento de pedidos de delivery
 
-Aplicação desenvolvida como desafio técnico utilizando **Java + Spring Boot** no backend e **React + TypeScript** no frontend, com autenticação JWT, documentação Swagger e deploy em cloud.
+Aplicação desenvolvida como desafio técnico utilizando **Java + Spring Boot** no Backend e **React + TypeScript** no Frontend, com autenticação JWT, documentação OpenAPI/Swagger e deploy em cloud.
 
-![Java](https://img.shields.io/badge/Java-17-orange)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-success)
-![React](https://img.shields.io/badge/React-19-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6)
-![JWT](https://img.shields.io/badge/Auth-JWT-green)
-![Swagger](https://img.shields.io/badge/API-Swagger-85EA2D)
-![License](https://img.shields.io/badge/license-MIT-blue)
+<p>
+
+![Java](https://img.shields.io/badge/Java-17-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?logo=springboot)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)
+![JWT](https://img.shields.io/badge/Auth-JWT-success)
+![Swagger](https://img.shields.io/badge/API-Swagger-85EA2D?logo=swagger)
+![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql)
+
+</p>
 
 </div>
 
 ---
 
-# 📌 Sobre o projeto
+# 📖 Sobre o Projeto
 
-O Mini Rastreador de Pedidos é uma aplicação completa para gerenciamento de pedidos de delivery.
+O **Mini Rastreador de Pedidos** é uma aplicação Full Stack desenvolvida para controlar o ciclo completo de pedidos de delivery.
 
-O sistema permite:
+O sistema permite que usuários autenticados realizem pedidos, acompanhem seu andamento e consultem todas as informações através de uma interface web integrada a uma API REST.
 
-- Cadastro e autenticação de usuários
-- Controle de clientes
-- Cadastro de pedidos
-- Atualização do status da entrega
-- Rastreamento do pedido
-- Comunicação entre Frontend e Backend através de API REST
-
-Toda a aplicação foi construída utilizando arquitetura em camadas seguindo boas práticas de desenvolvimento.
+O projeto foi desenvolvido utilizando boas práticas de arquitetura em camadas, autenticação JWT, documentação da API com Swagger e persistência de dados utilizando MySQL.
 
 ---
 
@@ -43,29 +40,38 @@ Toda a aplicação foi construída utilizando arquitetura em camadas seguindo bo
 - Login
 - Senhas criptografadas com BCrypt
 - Autenticação utilizando JWT
-- Proteção de rotas
+- Rotas protegidas pelo Spring Security
 
 ---
 
 ## 📦 Pedidos
 
-- Criar pedidos
-- Buscar pedidos
-- Listar pedidos
-- Atualizar status
-- Histórico de pedidos
+- Cadastro de pedidos
+- Associação de cliente ao pedido
+- Associação de endereço de entrega
+- Associação de produtos
+- Consulta por ID
+- Listagem de pedidos
+- Atualização do status do pedido
+- Rastreamento completo do fluxo da entrega
 
 ---
 
-## 🚚 Fluxo do Pedido
+# 🚚 Fluxo do Pedido
 
-```mermaid
-flowchart LR
-A[RECEBIDO] --> B[EM_PREPARO]
-B --> C[SAIU_PARA_ENTREGA]
-C --> D[ENTREGUE]
+```text
+RECEBIDO
+      │
+      ▼
+EM_PREPARO
+      │
+      ▼
+SAIU_PARA_ENTREGA
+      │
+      ▼
+ENTREGUE
 
-A --> E[CANCELADO]
+└────────────► CANCELADO
 ```
 
 ---
@@ -73,100 +79,120 @@ A --> E[CANCELADO]
 # 🏗 Arquitetura
 
 ```
-Frontend (React)
-
-↓
-
-API REST
-
-↓
-
-Controller
-
-↓
-
-Service
-
-↓
-
-Repository
-
-↓
-
-MySQL
-```
-
-Backend organizado em camadas:
-
-```
-controller
-service
-repository
-model
-dto
-security
-config
-exception
+                React + TypeScript
+                        │
+                        │ Axios
+                        ▼
+              Spring Boot REST API
+                        │
+      ┌─────────────────┼─────────────────┐
+      │                 │                 │
+ Controller         Service         Security JWT
+      │                 │
+      ▼                 ▼
+ Repository       Regras de Negócio
+      │
+      ▼
+     MySQL
 ```
 
 ---
 
-# 🛠 Tecnologias
+# 📂 Estrutura do Projeto
 
 ## Backend
 
-- Java 17
-- Spring Boot 3
-- Spring Security
-- Spring Data JPA
-- Hibernate
-- JWT
-- BCrypt
-- Maven
+```
+src/main/java/com/geandro/rastreador
 
----
+├── config
+├── controller
+├── dto
+├── exception
+├── model
+├── repository
+├── security
+├── service
+└── util
+```
 
 ## Frontend
 
-- React
-- TypeScript
-- Vite
-- Axios
-- React Router
+```
+src
+
+├── components
+├── context
+├── model
+├── pages
+├── services
+├── routes
+└── utils
+```
 
 ---
 
-## Banco
+# 🗄 Modelo de Dados
 
-- MySQL
+## 👤 Usuario
+
+| Campo | Tipo |
+|--------|------|
+| id | Long |
+| nome | String |
+| email | String |
+| senha | String |
 
 ---
 
-## Documentação
+## 📍 Endereco
 
-- Swagger / OpenAPI
+| Campo | Tipo |
+|--------|------|
+| id | Long |
+| rua | String |
+| numero | String |
+| bairro | String |
+| cidade | String |
+| complemento | String |
 
 ---
 
-## Ferramentas
+## 🛒 ItemPedido
 
-- Git
-- GitHub
-- Postman
-- VS Code
-- IntelliJ / STS
+| Campo | Tipo |
+|--------|------|
+| id | Long |
+| produto | String |
+| preco | Double |
+
+---
+
+## 📦 Pedido
+
+| Campo | Tipo |
+|--------|------|
+| id | Long |
+| dataPedido | LocalDateTime |
+| status | StatusPedido |
+| cliente | Usuario |
+| endereco | Endereco |
+| itens | List<ItemPedido> |
 
 ---
 
 # 🔐 Segurança
 
-A aplicação utiliza:
+O sistema utiliza Spring Security juntamente com JWT.
 
-- JWT Authentication
+### Funcionalidades implementadas
+
+- Login autenticado
+- Geração de JWT
+- Bearer Token
 - BCryptPasswordEncoder
-- Spring Security
 - Rotas protegidas
-- Autorização baseada em Token
+- Validação automática do Token
 
 Fluxo:
 
@@ -190,13 +216,15 @@ Requisições autenticadas
 
 # 📑 Documentação da API
 
-Após iniciar o backend:
+Após iniciar o Backend:
+
+### Swagger UI
 
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
 
-OpenAPI:
+### OpenAPI JSON
 
 ```
 http://localhost:8080/v3/api-docs
@@ -204,54 +232,83 @@ http://localhost:8080/v3/api-docs
 
 ---
 
-# 📦 Modelo de Dados
+# 🔌 Principais Endpoints
 
-## Usuário
+## Usuários
 
-- id
-- nome
-- email
-- senha
-
----
-
-## Pedido
-
-- id
-- dataPedido
-- status
-- cliente
-- endereço
-- itens
+| Método | Endpoint |
+|---------|----------|
+| POST | /usuarios/cadastro |
+| POST | /usuarios/login |
 
 ---
 
-## Item
+## Pedidos
 
-- id
-- produto
-- quantidade
-- preço
-
----
-
-## Endereço
-
-- rua
-- número
-- bairro
-- cidade
-- complemento
+| Método | Endpoint |
+|---------|----------|
+| GET | /pedidos |
+| GET | /pedidos/{id} |
+| POST | /pedidos |
+| PUT | /pedidos/{id}/status |
 
 ---
 
-# 🚀 Como executar
+# 🛠 Tecnologias Utilizadas
+
+## Backend
+
+- Java 17
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- JWT
+- BCrypt
+- Maven
+
+---
+
+## Frontend
+
+- React
+- TypeScript
+- Vite
+- Axios
+- React Router DOM
+
+---
+
+## Banco de Dados
+
+- MySQL
+
+---
+
+## Ferramentas
+
+- Git
+- GitHub
+- Postman
+- Swagger
+- VS Code
+- Spring Tool Suite
+
+---
+
+# 🚀 Como Executar
+
+## Clonar o projeto
+
+```bash
+git clone https://github.com/geandrol/Mini-rastreador.git
+```
+
+---
 
 ## Backend
 
 ```bash
-git clone https://github.com/geandrol/Mini-rastreador.git
-
 cd backend
 
 mvn spring-boot:run
@@ -259,22 +316,24 @@ mvn spring-boot:run
 
 ---
 
-## Banco
+## Banco de Dados
 
-Criar:
+Criar o banco:
 
 ```sql
 CREATE DATABASE pedidos_db;
 ```
 
-Configurar:
+Configurar o arquivo:
+
+```
+application.properties
+```
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/pedidos_db
-
 spring.datasource.username=root
-
-spring.datasource.password=senha
+spring.datasource.password=sua_senha
 
 spring.jpa.hibernate.ddl-auto=update
 ```
@@ -291,109 +350,88 @@ npm install
 npm run dev
 ```
 
+A aplicação estará disponível em:
+
+```
+http://localhost:5173
+```
+
 ---
 
-# 🌐 Deploy
+# ☁ Deploy
 
 ## Backend
 
-Deploy realizado em Cloud utilizando Spring Boot.
+Aplicação publicada em ambiente Cloud.
 
 ## Frontend
 
-Deploy realizado na Vercel.
+Aplicação publicada na Vercel.
 
 ---
 
-# 🔌 Principais Endpoints
+# 📌 Funcionalidades Implementadas
 
-## Autenticação
-
-```
-POST /usuarios/cadastro
-
-POST /usuarios/login
-```
-
----
-
-## Pedidos
-
-```
-GET /pedidos
-
-GET /pedidos/{id}
-
-POST /pedidos
-
-PUT /pedidos/{id}/status
-```
+- ✅ Cadastro de usuários
+- ✅ Login
+- ✅ JWT Authentication
+- ✅ BCrypt
+- ✅ Spring Security
+- ✅ Cadastro de pedidos
+- ✅ Atualização do status
+- ✅ Rastreamento de pedidos
+- ✅ API REST
+- ✅ React + TypeScript
+- ✅ Integração Frontend/Backend
+- ✅ Swagger/OpenAPI
+- ✅ Deploy do Backend
+- ✅ Deploy do Frontend
 
 ---
 
-## Clientes
+# 🔮 Próximas Melhorias
 
-```
-GET /clientes
-
-POST /clientes
-```
-
----
-
-# 📋 Diferenciais do Projeto
-
-✅ Arquitetura em camadas
-
-✅ DTOs
-
-✅ Spring Security
-
-✅ JWT Authentication
-
-✅ BCrypt
-
-✅ Swagger/OpenAPI
-
-✅ API REST
-
-✅ React + TypeScript
-
-✅ Integração Frontend/Backend
-
-✅ Tratamento de exceções
-
-✅ Deploy em Cloud
-
----
-
-# 🔮 Próximas melhorias
-
-- Testes unitários
-- Testes de integração
 - Docker
 - Docker Compose
-- CI/CD
+- Testes Unitários
+- Testes de Integração
+- CI/CD com GitHub Actions
 - Refresh Token
 - Recuperação de senha
-- Upload de imagens
 - Painel administrativo
-- Monitoramento com Actuator
+- Dashboard de pedidos
+- Upload de imagens
+- Observabilidade (Actuator + Micrometer)
 
 ---
 
 # 👨‍💻 Autor
 
-**Geandro**
+## Geandro
 
-Desenvolvedor Full Stack
+**Desenvolvedor Full Stack**
 
-Java • Spring Boot • React • TypeScript • MySQL
+Especializado em:
 
-GitHub:
+- Java
+- Spring Boot
+- React
+- TypeScript
+- Node.js
+- SQL
+
+### GitHub
 
 https://github.com/geandrol
 
-LinkedIn:
+### LinkedIn
 
-(adicione seu LinkedIn aqui)
+*(adicione seu perfil aqui)*
+
+---
+
+<div align="center">
+
+⭐ Se este projeto foi útil para você, deixe uma estrela no repositório.
+
+</div>
